@@ -46,7 +46,9 @@ UIBUILDER = tools/build_ui.sh
 
 # Compile version info
 VERSION = $(shell git describe HEAD --tags)
+# VERSiON = bsw01
 LATEST_TAG = $(shell git describe HEAD --tags --abbrev=0)
+# LATEST_TAG = bsw01
 
 # General targets
 #################################################################
@@ -103,12 +105,12 @@ buildarchive:
 	cp -r build/dist/* build/dist21
 
 	# Build for Anki 2.0
-	type pyenv >/dev/null 2>&1 && \
-		eval "$$(pyenv init -)" && eval "$$(pyenv virtualenv-init -)" || true && \
-		cd build/dist && \
-		PYENV_VERSION=$(PYENV20) ../../$(UIBUILDER) "$(ADDONDIR)" anki20 && \
-		cd src && \
-		zip -r "../../../$(ADDON)-release-$(VERSION)-anki20.zip" "$(ADDONDIR)" *.py
+	#type pyenv >/dev/null 2>&1 && \
+	#	eval "$$(pyenv init -)" && eval "$$(pyenv virtualenv-init -)" || true && \
+	#	cd build/dist && \
+	#	PYENV_VERSION=$(PYENV20) ../../$(UIBUILDER) "$(ADDONDIR)" anki20 && \
+	#	cd src && \
+	#	zip -r "../../../$(ADDON)-release-$(VERSION)-anki20.zip" "$(ADDONDIR)" *.py
 	
 	# Build for Anki 2.1
 	#	different releases for AnkiWeb and GitHub
@@ -129,9 +131,9 @@ clean:
 	find . \( -name '*.pyc' -o -name '*.pyo' -o -name '__pycache__' \) -delete
 
 ui:
-	type pyenv >/dev/null 2>&1 && \
-		eval "$$(pyenv init -)" && eval "$$(pyenv virtualenv-init -)" || true && \
-		PYENV_VERSION=$(PYENV20) ./$(UIBUILDER) "$(ADDONDIR)" anki20
+	#type pyenv >/dev/null 2>&1 && \
+	#	eval "$$(pyenv init -)" && eval "$$(pyenv virtualenv-init -)" || true && \
+	#	PYENV_VERSION=$(PYENV20) ./$(UIBUILDER) "$(ADDONDIR)" anki20
 	type pyenv >/dev/null 2>&1 && \
 		eval "$$(pyenv init -)" && eval "$$(pyenv virtualenv-init -)" || true && \
 		PYENV_VERSION=$(PYENV21) ./$(UIBUILDER) "$(ADDONDIR)" anki21

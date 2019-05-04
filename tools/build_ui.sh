@@ -189,10 +189,10 @@ function qt_builder () {
         echo "Generating ${outfile}"
         "${tool_exec}" ${TOOL_OPTS[$tool_exec]} "${infile}" -o "${outfile}"
         
-        for cmd in "${extra_cmds[@]}"; do
-            debuglog "Processing ${outfile} with ${cmd}"
-            "${cmd}" "${outfile}"
-        done
+        #for cmd in "${extra_cmds[@]}"; do
+        #    debuglog "Processing ${outfile} with ${cmd}"
+        #    "${cmd}" "${outfile}"
+        #done
     done
 
     debuglog "Finalizing init file for ${outdir}..."
