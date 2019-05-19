@@ -38,6 +38,7 @@ addon.json
 .gitold
 obsolete
 research
+*.log
 # Linux FM
 .hidden
 .directory
@@ -48,3 +49,6 @@ docs/description.html
 todo
 # Assets
 resources/icons/optional
+# Vagrant
+.vagrant
+home

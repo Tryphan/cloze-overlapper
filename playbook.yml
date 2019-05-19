@@ -1,0 +1,70 @@
+---
+- hosts: all
+  become: yes # all tasks will be executed with sudo
+  vars:
+    home: home/vagrant
+  tasks:
+    - name: Install Python 3.6
+      apt:
+        name: python3.6
+        state: present
+        update_cache: yes
+        
+    - name: Install Various packages
+      apt:
+        name: 
+          - curl
+          - wget 
+          - zip
+          - unzip
+          - python3-pip
+        state: present
+        update_cache: yes
+        autoclean: yes
+        
+    - name: Install pyenv
+      git:
+        repo: https://github.com/yyuu/pyenv.git
+        dest: "/home/vagrant/.pyenv"
+    
+    - name: Install pyenv-virtualenv plugin
+      git:
+        repo: https://github.com/yyuu/pyenv-virtualenv.git
+        dest: "/home/vagrant/.pyenv/plugins/pyenv-virtualenv"
+        
+    - name: Add path etc to .bashrc
+      lineinfile:
+        dest: "home/vagrant/.bashrc"
+        state: present
+        create: yes
+        line: "{{ item }}"
+      with_items:
+        - 'export PYENV_ROOT="$HOME/.pyenv"'
+        - 'export PATH="$PYENV_ROOT/bin:$PATH"'
+        - 'eval "$(pyenv init -)"'
+        - 'eval "$(pyenv virtualenv-init -)"'
+        
+    - name: Ensure .pyenv permissions are set properly
+      file: path=/home/vagrant/.pyenv
+            recurse=yes
+            owner=vagrant
+            group=vagrant
+            state=directory
+            
+    # - name: Install pip3
+      # apt:
+        # name: python3-pip
+        # state: present
+        # update_cache: yes
+    
+    - name: Install 'virtualenv' package
+      pip:
+        name: virtualenv
+        executable: pip3
+        
+    - name: Create virtualenv
+      become: no
+      pip:
+        virtualenv: "/home/vagrant/venv"
+        virtualenv_python: python3.6
+        requirements: "/vagrant/requirements.txt"
